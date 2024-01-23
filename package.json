@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "prettier -w . && tsc --noEmit && eslint src"
+    "lint": "prettier -w . && tsc --noEmit && eslint src",
+    "lint-check": "prettier -c . && tsc --noEmit && eslint src",
+    "prepare": "husky install"
   },
   "dependencies": {
     "next": "14.0.4",
@@ -28,6 +30,7 @@
     "postcss": "^8",
     "prettier": "^3.2.4",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "husky": "^8.0.0"
   }
 }
