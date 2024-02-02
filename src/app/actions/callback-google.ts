@@ -2,6 +2,13 @@
 
 import envNode from "@/env-node";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+
+const responseSchema = z.object({
+  name: z.string(),
+  email: z.string(),
+  picture: z.string(),
+});
 
 export default async function callbackGoogle(params: string) {
   const urlParams = new URLSearchParams(params);
@@ -21,13 +28,19 @@ export default async function callbackGoogle(params: string) {
     `${envNode.NEXT_PUBLIC_SERVER_ORIGIN}/login/google`
   );
 
-  let data;
+  let data: z.infer<typeof responseSchema> & {
+    [field: string]: string | undefined;
+  };
   try {
     const res = await fetch(tokenUrl, { method: "POST" });
+    console.log(res.status);
     data = await res.json();
+    data = responseSchema.parse(data);
   } catch (err) {
-    console.log("invalid login", err);
+    console.log("not able to log in with google", "error:", err);
+    return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
   }
+
   console.log(data);
 
   return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
