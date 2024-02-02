@@ -27,7 +27,7 @@ const GoogleSignIn = () => {
         url.searchParams.set("scope", "openid email profile");
         url.searchParams.set(
           "redirect_uri",
-          `${envBrowser.NEXT_PUBLIC_SERVER_ORIGIN}/api/callback-google`
+          `${envBrowser.NEXT_PUBLIC_SERVER_ORIGIN}/login/google`
         );
         router.push(url.toString());
       }}
