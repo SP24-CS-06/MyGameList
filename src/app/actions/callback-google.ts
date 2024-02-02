@@ -2,12 +2,21 @@
 
 import envNode from "@/env-node";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { z } from "zod";
+import { createToken } from "@/lib/auth-token";
+import jwt from "jsonwebtoken";
 
-const responseSchema = z.object({
+const idTokenSchema = z.object({
   name: z.string(),
   email: z.string(),
+  email_verified: z.boolean(),
   picture: z.string(),
+  iat: z.number(),
+  exp: z.number(),
+  iss: z.string(),
+  aud: z.string(),
+  sub: z.string(),
 });
 
 export default async function callbackGoogle(params: string) {
@@ -28,20 +37,26 @@ export default async function callbackGoogle(params: string) {
     `${envNode.NEXT_PUBLIC_SERVER_ORIGIN}/login/google`
   );
 
-  let data: z.infer<typeof responseSchema> & {
-    [field: string]: string | undefined;
-  };
+  let data: z.infer<typeof idTokenSchema>;
   try {
     const res = await fetch(tokenUrl, { method: "POST" });
-    console.log(res.status);
-    data = await res.json();
-    data = responseSchema.parse(data);
+    const json = await res.json();
+    const idToken = jwt.decode(json["id_token"]);
+    data = idTokenSchema.parse(idToken);
   } catch (err) {
     console.log("not able to log in with google", "error:", err);
     return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
   }
 
-  console.log(data);
+  const token = createToken({
+    name: data.name,
+    sub: data.email,
+    picture: data.picture,
+  });
+
+  cookies().set("sid", token, {
+    httpOnly: true,
+  });
 
   return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
 }
