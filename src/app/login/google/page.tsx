@@ -1,6 +1,6 @@
 "use client";
 
-import callbackGoogle from "@/app/actions/callback-google";
+import callbackGoogle from "@/actions/oauth";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 

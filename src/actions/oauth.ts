@@ -7,7 +7,7 @@ import { z } from "zod";
 import { createToken } from "@/lib/auth-token";
 import jwt from "jsonwebtoken";
 
-const idTokenSchema = z.object({
+const googleIdTokenSchema = z.object({
   name: z.string(),
   email: z.string(),
   email_verified: z.boolean(),
@@ -27,22 +27,13 @@ export default async function callbackGoogle(params: string) {
     return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
   }
 
-  const tokenUrl = new URL("https://oauth2.googleapis.com/token");
-  tokenUrl.searchParams.set("code", code);
-  tokenUrl.searchParams.set("client_id", envNode.NEXT_PUBLIC_CLIENT_ID_GOOGLE);
-  tokenUrl.searchParams.set("client_secret", envNode.CLIENT_SECRET_GOOGLE);
-  tokenUrl.searchParams.set("grant_type", "authorization_code");
-  tokenUrl.searchParams.set(
-    "redirect_uri",
-    `${envNode.NEXT_PUBLIC_SERVER_ORIGIN}/login/google`
-  );
-
-  let data: z.infer<typeof idTokenSchema>;
+  let data: z.infer<typeof googleIdTokenSchema>;
+  const tokenUrl = buildGoogleTokenUrl(code);
   try {
     const res = await fetch(tokenUrl, { method: "POST" });
     const json = await res.json();
     const idToken = jwt.decode(json["id_token"]);
-    data = idTokenSchema.parse(idToken);
+    data = googleIdTokenSchema.parse(idToken);
   } catch (err) {
     console.log("not able to log in with google", "error:", err);
     return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
@@ -56,7 +47,24 @@ export default async function callbackGoogle(params: string) {
 
   cookies().set("sid", token, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 3600 * 24 * 7, // 1 week in seconds
   });
 
+  // todo: create user in DB
+
   return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
+}
+
+function buildGoogleTokenUrl(code: string) {
+  const tokenUrl = new URL("https://oauth2.googleapis.com/token");
+  tokenUrl.searchParams.set("code", code);
+  tokenUrl.searchParams.set("client_id", envNode.NEXT_PUBLIC_CLIENT_ID_GOOGLE);
+  tokenUrl.searchParams.set("client_secret", envNode.CLIENT_SECRET_GOOGLE);
+  tokenUrl.searchParams.set("grant_type", "authorization_code");
+  tokenUrl.searchParams.set(
+    "redirect_uri",
+    `${envNode.NEXT_PUBLIC_SERVER_ORIGIN}/login/google`
+  );
+  return tokenUrl;
 }
