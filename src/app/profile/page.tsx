@@ -1,12 +1,10 @@
-"use server";
-
 import React from 'react'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInstagram, faSteam } from '@fortawesome/free-brands-svg-icons'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
-export default async function Profile(){
+export default function Profile(){
     
     return (
             <div className='flex flex-row h-screen w-screen p-8'>
