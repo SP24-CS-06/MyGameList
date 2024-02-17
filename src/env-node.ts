@@ -8,6 +8,7 @@ const envSchema = z
     CLIENT_SECRET_GOOGLE: z.string().min(1),
     JWT_SECRET: z.string().min(1),
     NODE_ENV: z.string().min(1),
+    DB_URL: z.string().min(1),
   })
   .merge(envBrowserSchema);
 
