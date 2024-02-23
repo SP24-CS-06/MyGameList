@@ -1,7 +1,9 @@
 import Review from "@/components/Review/Review";
+import ReviewInput from "@/components/Review/ReviewInput";
 import React from "react";
 
 const Home = () => {
+  // TODO: remove this once we integrate the backend
   const dummyReview: Review = {
     gameCover:
       "https://upload.wikimedia.org/wikipedia/en/thumb/2/25/Half-Life_2_cover.jpg/220px-Half-Life_2_cover.jpg",
@@ -17,8 +19,13 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full max-w-[var(--max-w-home)] m-auto">
-      <Review review={dummyReview} />
+    <div className="w-full max-w-[var(--max-w-home)] m-auto mt-8">
+      <div className="w-full">
+        <ReviewInput/>
+      </div>
+      <div className="mt-8">
+        <Review review={dummyReview} />
+      </div>
     </div>
   );
 };
