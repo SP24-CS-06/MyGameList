@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <div className="w-full max-w-[var(--max-w-home)] m-auto mt-8">
       <div className="w-full">
-        <ReviewInput/>
+        <ReviewInput />
       </div>
       <div className="mt-8">
         <Review review={dummyReview} />
