@@ -1,9 +1,7 @@
 import Review from "@/components/Review/Review";
 import React from "react";
 
-type Props = {};
-
-const Home = (props: Props) => {
+const Home = () => {
   const dummyReview: Review = {
     gameCover:
       "https://upload.wikimedia.org/wikipedia/en/thumb/2/25/Half-Life_2_cover.jpg/220px-Half-Life_2_cover.jpg",
