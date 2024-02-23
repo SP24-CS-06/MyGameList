@@ -53,13 +53,15 @@ const Review = (props: Props) => {
             />
           </a>
           <div className="flex flex-col px-5">
-          <p className="text-ellipsis">{review.content}</p>
-        <a href="google.com" className="mx-auto mt-auto mb-4 underline"><span>See more</span></a>
-</div>
+            <p className="text-ellipsis">{review.content}</p>
+            <a href="google.com" className="mx-auto mt-auto mb-4 underline">
+              <span>See more</span>
+            </a>
+          </div>
         </div>
         <div className="pt-4">
-      <span>45 minutes ago</span>
-</div>
+          <span>45 minutes ago</span>
+        </div>
       </div>
     </div>
   );
