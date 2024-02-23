@@ -13,7 +13,9 @@ const GoogleSignIn = () => {
       priority
       draggable="false"
       className="hover:cursor-pointer"
-      src={`/google-buttons/web_${theme === "dark" ? "dark" : "light"}_sq_SI.svg`}
+      src={`/google-buttons/web_${
+        theme === "dark" ? "dark" : "light"
+      }_sq_SI.svg`}
       width={200}
       height={100}
       alt="Sign In using Google"
