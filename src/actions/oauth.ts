@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 import { createToken } from "@/lib/auth-token";
 import jwt from "jsonwebtoken";
-import { createUser } from "@/lib/db";
+import { createUser } from "@/db/user";
 
 export default async function callbackGoogle(params: string) {
   const urlParams = new URLSearchParams(params);
