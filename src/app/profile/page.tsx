@@ -23,46 +23,47 @@ export default function Profile() {
 
   return (
     <div className="flex flex-row justify-between h-screen w-screen p-8">
-      <div className="flex flex-col i">
+      <div className="flex flex-col i my-3">
         <Image
           src="/profile-pictures/defaultUser.jpg"
-          className="rounded-full"
+          className="rounded-full my-3"
           alt="Google"
           width={150}
           height={150}
+
         />
         <h1 className="text-2xl font-bold">Doug Dimmadome</h1>
         <p className="text-sm">
-          <span className="text-gray-500">@</span>dDimma
+          <span className="text-gray-500">@</span>dDimmagit 
         </p>
-        <p className="text-sm">
+        <p className="text-sm my-3">
           Hey! My name is Doug Dimmadome and I like videogames!
         </p>
         <button className=" my-3 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-4 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full">Edit:</button>
-        <div className="flex flex-row items-center my-4">
+        <a target="_blank" href='https://maps.app.goo.gl/RnFzUr1gvnPL7CnYA' className="flex flex-row items-center my-4">
           <FontAwesomeIcon
             icon={faLocationDot}
             style={{ color: "#606060" }}
             className="w-6"
           />
           <div className="mx-3">Miami</div>
-        </div>
-        <div className="flex flex-row items-center my-4">
+        </a>
+        <a target="_blank" href='https://www.instagram.com/whyiamthere/' className="flex flex-row items-center my-4">
           <FontAwesomeIcon
             icon={faInstagram}
             style={{ color: "#606060" }}
             className="w-6"
           />
           <div className="mx-3">@dDimma</div>
-        </div>
-        <div className="flex flex-row items-center my-4">
+        </a>
+        <a target="_blank" href='https://steamcommunity.com/id/whyiamthere' className="flex flex-row items-center my-4">
           <FontAwesomeIcon
             icon={faSteam}
             style={{ color: "#606060" }}
             className="w-6"
           />
           <div className="mx-3">dDimma</div>
-        </div>
+        </a>
       </div>
 
       <div className="flex flex-col h-screen items-center w-8/12">
