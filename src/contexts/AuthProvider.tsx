@@ -5,13 +5,15 @@ import { createContext } from "react";
 type AuthContextData = {
   username: string;
   picture: string;
-} | null;
+};
 
-export const AuthContext = createContext<AuthContextData | null>(null);
+export const AuthContext = createContext<AuthContextData | null | undefined>(
+  undefined
+);
 
 type Props = {
   children: React.ReactNode;
-  userData: AuthContextData;
+  userData: AuthContextData | null;
 };
 
 export default function AuthProvider({ children, userData }: Props) {
