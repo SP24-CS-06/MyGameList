@@ -1,10 +1,11 @@
 import { z } from "zod";
 import jwt from "jsonwebtoken";
 import envNode from "@/env-node";
+import { cookies } from "next/headers";
 
 const tokenPayloadSchema = z.object({
   sub: z.string(),
-  name: z.string(),
+  email: z.string(),
   picture: z.string(),
 });
 
@@ -17,8 +18,16 @@ export function createToken(payload: AuthTokenPlayload) {
   return token;
 }
 
-export function verifyToken(token: string) {
+export function verifyToken(token: string): AuthTokenPlayload | null {
   const payload = jwt.verify(token, envNode.JWT_SECRET);
-  tokenPayloadSchema.parse(payload);
-  return payload as AuthTokenPlayload;
+  const parsedToken = tokenPayloadSchema.safeParse(payload);
+  if (!parsedToken.success) return null;
+  return parsedToken.data;
+}
+
+export function getTokenPayload(): AuthTokenPlayload | null {
+  const cookieStore = cookies();
+  const sid = cookieStore.get("sid");
+  if (!sid) return null;
+  return verifyToken(sid.value);
 }

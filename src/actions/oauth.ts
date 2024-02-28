@@ -4,7 +4,7 @@ import envNode from "@/env-node";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { createToken } from "@/lib/auth-token";
+import { createToken } from "@/lib/auth";
 import jwt from "jsonwebtoken";
 import { createUser } from "@/db/user";
 
@@ -25,17 +25,22 @@ export default async function callbackGoogle(params: string) {
     return void redirect(envNode.NEXT_PUBLIC_SERVER_ORIGIN);
   }
 
-  const token = createToken({
-    name: data.name,
-    sub: data.email,
-    picture: data.picture,
-  });
-
+  let user: Awaited<ReturnType<typeof createUser>>;
   try {
-    await createUser({ email: data.email, username: data.name });
+    user = await createUser({
+      username: data.name,
+      email: data.email,
+      picture: data.picture,
+    });
   } catch (error) {
-    console.log("caught error while creating user:", error);
+    return void console.log("caught error while creating user:", error);
   }
+
+  const token = createToken({
+    sub: user.username,
+    email: user.email,
+    picture: user.picture,
+  });
 
   cookies().set("sid", token, {
     httpOnly: true,
