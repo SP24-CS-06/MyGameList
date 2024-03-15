@@ -2,7 +2,7 @@ import Review from "@/components/Review/Review";
 import ReviewInput from "@/components/Review/ReviewInput";
 import React from "react";
 
-const Home = () => {
+const Home = async () => {
   // TODO: remove this once we integrate the backend
   const dummyReview: Review = {
     gameCover:
