@@ -1,20 +1,24 @@
 "use client";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { Dispatch, SetStateAction, useState } from "react";
-
-type PropsModal = {
-  game?: number; // TODO: change this to a Game type or TBD
-  content?: string;
-  rating?: number;
-  setModalOpen: Dispatch<SetStateAction<boolean>>;
-};
+import React, {
+  useState,
+} from "react";
+import ReviewModal from "./ReviewModal";
 
 const ReviewInput = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
     <>
+      {isModalOpen ? (
+        <div
+          className="w-screen h-screen absolute top-0 left-0 bg-black bg-opacity-35 transition-all"
+          onClick={() => setModalOpen(false)}
+        ></div>
+      ) : (
+        <></>
+      )}
       <div className="flex w-full border-[var(--border)] bg-[#ffffff] dark:bg-[#3b3b3b] rounded-[6px]">
         <FontAwesomeIcon
           className={"w-5 text-[var(--icon)] ml-3 h-full my-auto"}
@@ -32,15 +36,6 @@ const ReviewInput = () => {
   );
 };
 
-const ReviewModal = (props: PropsModal) => {
-  return (
-    <dialog
-      className="border-[var(--border)] bg-[#ffffff] dark:bg-[#3b3b3b]"
-      open
-    >
-      <button onClick={() => props.setModalOpen(false)}>BUTTON</button>
-    </dialog>
-  );
-};
+
 
 export default ReviewInput;
