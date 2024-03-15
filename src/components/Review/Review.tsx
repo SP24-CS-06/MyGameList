@@ -26,14 +26,14 @@ const Review = (props: Props) => {
   const gameLink = generateGameLink(review.gameId);
 
   return (
-    <div className="w-full bg-[#ffffff] dark:bg-[#3b3b3b] rounded-[6px] p-4 flex flex-row shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] my-4">
+    <div className="w-full dark:bg-card rounded-md p-4 flex flex-row my-4 border dark:border-none">
       <div className="pr-3">
         <UserIcon userLink={userLink} userImg={review.userImg} />
       </div>
       <div className="flex flex-col">
         <div className="pb-5">
           <a href={userLink}>
-            <span className="font-bold text-[1rem] hover:underline cursor-pointer pb-2">{`@${review.username}`}</span>
+            <span className="font-bold text-lg hover:underline cursor-pointer pb-2">{`@${review.username}`}</span>
           </a>
           <p>
             Left a review about{" "}
@@ -45,7 +45,7 @@ const Review = (props: Props) => {
         <div className="flex flex-row">
           <a href={gameLink}>
             <Image
-              className="object-cover min-w-[200px]"
+              className="object-cover min-w-52"
               alt={`${review.gameName} Cover Art`}
               width={200}
               height={200}

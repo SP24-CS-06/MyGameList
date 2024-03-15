@@ -17,8 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} dark:bg-[var(--background)]`}>
-        <Providers>{children}</Providers>
+      <body className={`${inter.className} bg-background`}>
+        <Providers>
+          <nav className="bg-card">Login</nav>
+          {children}
+        </Providers>
       </body>
     </html>
   );
