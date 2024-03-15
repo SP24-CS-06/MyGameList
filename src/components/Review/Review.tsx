@@ -2,6 +2,8 @@ import React from "react";
 import UserIcon from "./UserIcon";
 import { generateGameLink, generateUserLink } from "@/lib/link";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 // TODO: change this
 type Review = {
@@ -42,10 +44,10 @@ const Review = (props: Props) => {
             </a>
           </p>
         </div>
-        <div className="flex flex-row">
+        <div className="flex">
           <a href={gameLink}>
             <Image
-              className="object-cover min-w-52"
+              className="object-cover min-w-[200px] rounded-sm"
               alt={`${review.gameName} Cover Art`}
               width={200}
               height={200}
@@ -59,8 +61,9 @@ const Review = (props: Props) => {
             </a>
           </div>
         </div>
-        <div className="pt-4">
-          <span>45 minutes ago</span>
+        <div className="pt-4 flex align-baseline">
+          <FontAwesomeIcon className={"h-6 my-auto"} icon={faCalendar} />
+          <span className="my-auto ml-2">45 minutes ago</span>
         </div>
       </div>
     </div>
