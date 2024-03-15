@@ -1,9 +1,7 @@
 "use client";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, {
-  useState,
-} from "react";
+import React, { useState } from "react";
 import ReviewModal from "./ReviewModal";
 
 const ReviewInput = () => {
@@ -35,7 +33,5 @@ const ReviewInput = () => {
     </>
   );
 };
-
-
 
 export default ReviewInput;
