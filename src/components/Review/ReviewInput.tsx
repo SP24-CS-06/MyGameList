@@ -27,16 +27,20 @@ const ReviewInput = () => {
           onClick={() => setModalOpen(true)}
         />
       </div>
-      {isModalOpen && <ReviewModal setModalOpen={setModalOpen}/>}
+      {isModalOpen && <ReviewModal setModalOpen={setModalOpen} />}
     </>
   );
 };
 
 const ReviewModal = (props: PropsModal) => {
-  
-  return (<dialog className="border-[var(--border)] bg-[#ffffff] dark:bg-[#3b3b3b]" open>
-    <button onClick={() => props.setModalOpen(false)}>BUTTON</button>
-    </dialog>)
+  return (
+    <dialog
+      className="border-[var(--border)] bg-[#ffffff] dark:bg-[#3b3b3b]"
+      open
+    >
+      <button onClick={() => props.setModalOpen(false)}>BUTTON</button>
+    </dialog>
+  );
 };
 
 export default ReviewInput;
