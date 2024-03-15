@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faSteam } from "@fortawesome/free-brands-svg-icons";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import Review from "@/components/Review/Review";
+import Username from "@/components/Profile/Username";
 
 export default function Profile() {
+
   const dummyReview: Review = {
     gameCover:
       "https://upload.wikimedia.org/wikipedia/en/thumb/2/25/Half-Life_2_cover.jpg/220px-Half-Life_2_cover.jpg",
@@ -33,9 +35,7 @@ export default function Profile() {
           />
         </div>
         <h1 className="text-3xl font-bold">Doug Dimmadome</h1>
-        <p className="text-md">
-          <span className="text-gray-500">@</span>dDimmagit
-        </p>
+        <Username username='Dimmadome' />
         <p className="text-md my-3">
           Hey! My name is Doug Dimmadome and I like videogames!
         </p>
