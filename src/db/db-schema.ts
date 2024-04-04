@@ -9,3 +9,11 @@ export const userSchema = z.object({
 });
 
 export type User = z.infer<typeof userSchema>;
+
+export const reviewSchema = z.object({
+  id: z.number().or(z.string().transform(s => Number.parseInt(s))),
+  created_at: z.number(),
+  content: z.string(),
+});
+
+export type Review = z.infer<typeof reviewSchema>;

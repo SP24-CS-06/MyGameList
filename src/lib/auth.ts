@@ -2,6 +2,7 @@ import { z } from "zod";
 import jwt from "jsonwebtoken";
 import envNode from "@/env-node";
 import { cookies } from "next/headers";
+import { User } from "@/db/db-schema";
 
 const tokenPayloadSchema = z.object({
   sub: z.string(),
@@ -30,4 +31,15 @@ export function getTokenPayload(): AuthTokenPlayload | null {
   const sid = cookieStore.get("sid");
   if (!sid) return null;
   return verifyToken(sid.value);
+}
+
+export function getUserFromToken(): Omit<User, "id"> | null {
+  const userData = getTokenPayload();
+  return (
+    userData && {
+      email: userData.email,
+      picture: userData.picture,
+      username: userData.sub,
+    }
+  );
 }
