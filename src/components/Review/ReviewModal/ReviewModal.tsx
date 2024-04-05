@@ -26,7 +26,7 @@ const ReviewModal = ({ isOpen, closeModal }: Props) => {
   const handleSubmit = () => {
     console.log("TODO: handleSubmit");
     closeModal();
-  }
+  };
 
   if (!isOpen) return <></>;
 

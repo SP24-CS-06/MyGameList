@@ -56,7 +56,9 @@ const GameField = ({ callbackSelectedGame }: Props) => {
     <div className="flex flex-col">
       <input
         type="text"
-        className={`w-full mt-2 bg-[var(--input-background)] p-2 rounded-md ${availableGames.length ? "rounded-b-none" : ""}`}
+        className={`w-full mt-2 bg-[var(--input-background)] p-2 rounded-md ${
+          availableGames.length ? "rounded-b-none" : ""
+        }`}
         placeholder="Search for Game"
         onChange={handleChange}
         value={field}

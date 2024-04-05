@@ -15,7 +15,11 @@ const RatingField = ({ rating, setRating }: Props) => {
       {Array.from({ length: 5 }, (_, i) => (
         <FontAwesomeIcon
           key={i}
-          className={`${rating > i || hoverRating > i ? "text-yellow-200" : "text-[var(--icon)]"} ${i !== 0 ? "pl-2" : ""} w-8 h-full my-auto cursor-pointer`}
+          className={`${
+            rating > i || hoverRating > i
+              ? "text-yellow-200"
+              : "text-[var(--icon)]"
+          } ${i !== 0 ? "pl-2" : ""} w-8 h-full my-auto cursor-pointer`}
           icon={faStar}
           onMouseOver={() => setHoverRating(i + 1)}
           onMouseLeave={() => setHoverRating(-1)}
