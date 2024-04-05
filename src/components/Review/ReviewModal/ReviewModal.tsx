@@ -1,19 +1,32 @@
 import { useRef, useEffect, MutableRefObject, useState } from "react";
 import RatingField from "./RatingField";
+import GameField from "./GameField";
 
 type Props = {
   isOpen: boolean;
   closeModal: () => void;
 };
 
+export type Game = {
+  appid?: number;
+  name?: string;
+};
+
 const ReviewModal = ({ isOpen, closeModal }: Props) => {
   const [rating, setRating] = useState(-1);
   const [description, setDescription] = useState("");
+  const [selectedGame, setSelectedGame] = useState<Game>({});
+
   const dialogRef = useRef<HTMLDialogElement>();
   // unfocus any other component when modal appears
   useEffect(() => {
     if (dialogRef.current) dialogRef.current.focus();
   }, []);
+
+  const handleSubmit = () => {
+    console.log("TODO: handleSubmit");
+    closeModal();
+  }
 
   if (!isOpen) return <></>;
 
@@ -37,11 +50,7 @@ const ReviewModal = ({ isOpen, closeModal }: Props) => {
           <div className="flex-grow h-full flex flex-col gap-5">
             <div>
               <label className="text-[18px] mb-2">Game</label>
-              <input
-                type="text"
-                className="w-full mt-2 bg-[var(--input-background)] p-2 rounded-md"
-                placeholder="Select Game"
-              />
+              <GameField callbackSelectedGame={setSelectedGame} />
             </div>
             <div>
               <label className="text-[18px]">Rating</label>
@@ -66,7 +75,7 @@ const ReviewModal = ({ isOpen, closeModal }: Props) => {
             </button>
             <button
               className="bg-[var(--button-submit-background)] p-2 hover:bg-[var(--button-submit-background-hover)] rounded-md"
-              onClick={() => closeModal()}
+              onClick={() => handleSubmit()}
             >
               Submit
             </button>
