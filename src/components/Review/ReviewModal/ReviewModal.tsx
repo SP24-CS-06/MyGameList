@@ -24,7 +24,7 @@ const ReviewModal = ({ isOpen, closeModal }: Props) => {
   }, []);
 
   const handleSubmit = () => {
-    console.log("TODO: handleSubmit");
+    console.log("TODO: handleSubmit. selecttedGame: ", selectedGame);
     closeModal();
   };
 

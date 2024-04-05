@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
-import { Game } from "./ReviewModal";
 import { GameSuggestion } from "./GameSuggestion";
+import { Game } from "./ReviewModal";
 
 type Props = {
   callbackSelectedGame: (g: Game) => void;
