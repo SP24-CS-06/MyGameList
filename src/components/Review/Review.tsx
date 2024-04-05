@@ -1,57 +1,43 @@
 import React from "react";
 import UserIcon from "./UserIcon";
-import { generateGameLink, generateUserLink } from "@/lib/link";
+import { generateGameUrl, generateUserProfileUrl } from "@/lib/urls";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-
-// TODO: change this
-type Review = {
-  gameName: string;
-  gameCover: string;
-  gameId: string;
-  userId: string;
-  username: string;
-  userImg: string;
-  rating: number;
-  content: string;
-};
+import type { ClientUser, Review } from "@/db/db-schema";
 
 type Props = {
   review: Review;
+  user: ClientUser;
 };
 
-const Review = (props: Props) => {
-  const { review } = props;
-
-  const userLink = generateUserLink(review.username);
-  const gameLink = generateGameLink(review.gameId);
+const Review = ({ review, user }: Props) => {
+  const userUrl = generateUserProfileUrl(user.username);
+  const gameUrl = generateGameUrl(review.app_id);
 
   return (
     <div className="w-full dark:bg-card rounded-md p-4 flex flex-row my-4 border dark:border-none">
       <div className="pr-3">
-        <UserIcon userLink={userLink} userImg={review.userImg} />
+        <UserIcon userLink={userUrl} userImg={user.picture} />
       </div>
       <div className="flex flex-col">
         <div className="pb-5">
-          <a href={userLink}>
-            <span className="font-bold text-lg hover:underline cursor-pointer pb-2">{`@${review.username}`}</span>
+          <a href={userUrl}>
+            <span className="font-bold text-lg hover:underline cursor-pointer pb-2">{`@${user.username}`}</span>
           </a>
           <p>
             Left a review about{" "}
-            <a className="underline" href={gameLink}>
-              {review.gameName}
+            <a className="underline" href={gameUrl}>
+              {review.title}
             </a>
           </p>
         </div>
-        <div className="flex">
-          <a href={gameLink}>
+        <div className="flex flex-row">
+          <a href={gameUrl}>
             <Image
-              className="object-cover min-w-[200px] rounded-sm"
-              alt={`${review.gameName} Cover Art`}
+              className="object-cover min-w-52"
+              alt={`${review.title} Cover Art`}
               width={200}
               height={200}
-              src={review.gameCover}
+              src={review.image_url}
             />
           </a>
           <div className="flex flex-col px-5">
@@ -61,10 +47,10 @@ const Review = (props: Props) => {
             </a>
           </div>
         </div>
-        <div className="pt-4 flex align-baseline">
+        {/* <div className="pt-4 flex align-baseline">
           <FontAwesomeIcon className={"h-6 my-auto"} icon={faCalendar} />
           <span className="my-auto ml-2">45 minutes ago</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

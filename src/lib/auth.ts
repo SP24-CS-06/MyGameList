@@ -2,7 +2,7 @@ import { z } from "zod";
 import jwt from "jsonwebtoken";
 import envNode from "@/env-node";
 import { cookies } from "next/headers";
-import { User } from "@/db/db-schema";
+import { ClientUser } from "@/db/db-schema";
 
 const tokenPayloadSchema = z.object({
   sub: z.string(),
@@ -33,7 +33,7 @@ export function getTokenPayload(): AuthTokenPlayload | null {
   return verifyToken(sid.value);
 }
 
-export function getUserFromToken(): Omit<User, "id"> | null {
+export function getUserFromToken(): ClientUser | null {
   const userData = getTokenPayload();
   return (
     userData && {

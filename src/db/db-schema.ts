@@ -9,11 +9,15 @@ export const userSchema = z.object({
 });
 
 export type User = z.infer<typeof userSchema>;
+export type ClientUser = Omit<User, "id">;
 
 export const reviewSchema = z.object({
-  id: z.number().or(z.string().transform(s => Number.parseInt(s))),
+  app_id: z.number().or(z.string().transform(s => Number.parseInt(s))),
+  title: z.string(),
+  rating: z.number().or(z.string().transform(s => Number.parseInt(s))),
   created_at: z.number(),
   content: z.string(),
+  image_url: z.string(),
 });
 
 export type Review = z.infer<typeof reviewSchema>;

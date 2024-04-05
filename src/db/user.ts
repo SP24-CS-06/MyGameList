@@ -57,3 +57,12 @@ export async function userByEmail(email: string): Promise<User | null> {
 
   return parsedUser.success ? parsedUser.data : null;
 }
+
+export async function userByUsername(username: string): Promise<User | null> {
+  const res = await db.raw("SELECT * FROM users WHERE username = ?", username);
+  if (!Object.hasOwn(res, "rows")) return null;
+
+  const parsedUser = userSchema.safeParse(res.rows[0]);
+
+  return parsedUser.success ? parsedUser.data : null;
+}

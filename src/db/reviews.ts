@@ -10,10 +10,14 @@ const reviewArraySchema = z.array(reviewSchema);
   const userData = getUserFromToken();
   if (userData) console.log(await reviewByUser(userData.username));
  */
-export async function reviewByUser(username: string): Promise<Review[] | null> {
+export async function reviewByUsername(
+  username: string
+): Promise<Review[] | null> {
   const res = await db.raw(
-    "SELECT reviewer_id, created_at, content FROM reviews LEFT JOIN users \
-    ON reviews.reviewer_id = users.id WHERE users.username = ?",
+    "SELECT title, created_at, content, a.image_url, r.appid, r.rating FROM reviews r \
+      LEFT JOIN users ON reviews.reviewer_id = users.id \
+      LEFT JOIN apps ON reviews.appid = apps.appid \
+      WHERE users.username = ?",
     [username]
   );
   if (!Object.hasOwn(res, "rows")) return null;
