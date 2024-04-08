@@ -7,7 +7,7 @@ import ReviewModal from "./ReviewModal/ReviewModal";
 
 const ReviewInput = () => {
   const { openModal, closeModal, isOpen } = useReviewModal();
-  console.log(isOpen);
+
   return (
     <>
       <ReviewModal isOpen={isOpen} closeModal={closeModal} />
