@@ -1,28 +1,34 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
-import { GameSuggestion } from "./GameSuggestion";
-import { Game } from "./ReviewModal";
+import { ChangeEvent, useState } from "react";
+import { GameSuggestion, GameSuggestionMessage } from "./GameSuggestion";
+import { Game } from "@/db/db-schema";
 
 type Props = {
-  callbackSelectedGame: (g: Game) => void;
+  callbackSelectedGame: (g: Game | null) => void;
 };
 
-const games: Game[] = [
-  { appid: 474762, name: "Sniper Elite 4 - Covert Heroes Character Pack" },
-  { appid: 473810, name: "Killbot" },
-  { appid: 473840, name: "Diib's Dilemma" },
-];
-
 const GameField = ({ callbackSelectedGame }: Props) => {
-  const [availableGames, setAvailableGames] = useState<Game[]>([]);
+  const [suggestions, setSuggestions] = useState<Game[] | null>([]);
   const [field, setField] = useState("");
+  const [isFetching, setFetching] = useState(false);
 
-  // TODO: replace with a real query
-  const queryGame = (query: string) => {
-    const filteredGames = games.filter(g =>
-      g.name?.toLowerCase().includes(query.toLowerCase())
+  const queryGame = async (query: string) => {
+    setFetching(true);
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_SERVER_ORIGIN + "/api/game?query=" + query
     );
-    setAvailableGames(filteredGames);
+
+    if (response.ok) {
+      const responseJson: { apps: Game[] | null; error: string | null } =
+        await response.json();
+
+      if (responseJson.error) {
+        console.error(responseJson.error);
+      }
+
+      setSuggestions(responseJson.apps);
+    }
+    setFetching(false);
   };
 
   // TODO: maybe add interval to fetch after a certain amount of time without typing
@@ -30,26 +36,22 @@ const GameField = ({ callbackSelectedGame }: Props) => {
     const value = e.target.value;
 
     // show game suggestions
-    if (value.length > 0) {
+    if (value.length > 1) {
       queryGame(value);
+      callbackSelectedGame(null);
     } else {
-      setAvailableGames([]);
+      setSuggestions([]);
     }
 
     setField(value);
   };
 
   const handleSuggestionClick = (game: Game) => {
-    console.log(game?.name);
-
-    setAvailableGames([]); // suggestion already selected, remove others
-    if (game?.name) {
-      setField(game?.name);
-      console.log("should work");
+    setSuggestions([]); // suggestion selected, remove others
+    if (game?.title) {
+      setField(game?.title);
+      callbackSelectedGame(game);
     }
-
-    // pass onto callback
-    callbackSelectedGame(game); // TODO: maybe query for game cover art to show user something that field is satisfied and we have a valid object
   };
 
   return (
@@ -57,20 +59,23 @@ const GameField = ({ callbackSelectedGame }: Props) => {
       <input
         type="text"
         className={`w-full mt-2 bg-[var(--input-background)] p-2 rounded-md ${
-          availableGames.length ? "rounded-b-none" : ""
+          suggestions?.length ? "rounded-b-none" : ""
         }`}
         placeholder="Search for Game"
         onChange={handleChange}
         value={field}
       />
-      {availableGames.map((game: Game, i: number) => (
+      {suggestions?.map((game: Game, i: number) => (
         <GameSuggestion
           key={i}
           game={game}
           handleClick={handleSuggestionClick}
-          lastElement={availableGames.length - 1 == i}
+          lastElement={suggestions.length - 1 == i}
         />
       ))}
+
+      {/* Messages about suggestions statuses */}
+      {isFetching && <GameSuggestionMessage message="Loading..." />}
     </div>
   );
 };

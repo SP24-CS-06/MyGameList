@@ -1,4 +1,4 @@
-import { Game } from "./ReviewModal";
+import { Game } from "@/db/db-schema";
 
 type Props = {
   handleClick: (game: Game) => void;
@@ -6,13 +6,22 @@ type Props = {
   lastElement: boolean;
 };
 
+const style = `w-full bg-[var(--input-background)] p-3 hover:bg-[var(--input-background-hover)] cursor-pointer`;
+
 export const GameSuggestion = ({ game, handleClick, lastElement }: Props) => {
   return (
     <div
-      className={`w-full bg-slate-600 p-3 ${lastElement ? "rounded-b-md" : ""}`}
+      className={`${style} ${lastElement ? "rounded-b-md" : "rounded-none"}`}
       onClick={() => handleClick(game)}
     >
-      {game.name}
+      {game.title}
     </div>
   );
+};
+
+/**
+ *  placeholder component to inform user about game suggestion queries
+ */
+export const GameSuggestionMessage = ({ message }: { message: string }) => {
+  return <div className={`${style} rounded-b-md`}>{message}</div>;
 };
