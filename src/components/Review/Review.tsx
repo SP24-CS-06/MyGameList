@@ -11,7 +11,7 @@ type Props = {
 
 const Review = ({ review, user }: Props) => {
   const userUrl = generateUserProfileUrl(user.username);
-  const gameUrl = generateGameUrl(review.app_id);
+  const gameUrl = generateGameUrl(review.appid);
 
   return (
     <div className="w-full dark:bg-card rounded-md p-4 flex flex-row my-4 border dark:border-none">

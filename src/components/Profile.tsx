@@ -27,7 +27,7 @@ export default async function Profile({ user }: Props) {
       <div className="flex flex-col h-screen items-center w-8/12">
         <h1 className="text-2xl font-bold">Reviews:</h1>
         {(reviews || []).map(r => (
-          <Review key={r.app_id} review={r} user={user} />
+          <Review key={r.appid} review={r} user={user} />
         ))}
       </div>
     </div>
