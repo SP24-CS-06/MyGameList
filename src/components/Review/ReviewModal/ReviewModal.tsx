@@ -7,12 +7,15 @@ import Image from "next/image";
 type Props = {
   isOpen: boolean;
   closeModal: () => void;
+  preSelectedGame?: Game;
 };
 
-const ReviewModal = ({ isOpen, closeModal }: Props) => {
+const ReviewModal = ({ isOpen, closeModal, preSelectedGame }: Props) => {
   const [rating, setRating] = useState(-1);
   const [description, setDescription] = useState("");
-  const [selectedGame, setSelectedGame] = useState<Game | null>();
+  const [selectedGame, setSelectedGame] = useState<Game | null>(
+    preSelectedGame ?? null
+  );
 
   const dialogRef = useRef<HTMLDialogElement>();
   // unfocus any other component when modal appears
@@ -26,7 +29,11 @@ const ReviewModal = ({ isOpen, closeModal }: Props) => {
   };
 
   const handleClose = () => {
-    console.log("TODO: reset all values when closing modal");
+    // reset all values after closing modal
+    setRating(-1);
+    setDescription("");
+    setSelectedGame(null);
+
     closeModal();
   };
 
@@ -37,7 +44,7 @@ const ReviewModal = ({ isOpen, closeModal }: Props) => {
       {/* Background */}
       <div
         className="w-screen h-screen absolute top-0 left-0 bg-black bg-opacity-35 transition-all"
-        onClick={() => closeModal()}
+        onClick={() => handleClose()}
       ></div>
       {/* Modal */}
       <dialog
