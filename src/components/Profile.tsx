@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import { reviewByUsername } from "@/db/reviews";
+import { reviewsByUsername } from "@/db/reviews";
 import Review from "@/components/Review/Review";
 import { ClientUser } from "@/db/db-schema";
 
 type Props = { user: ClientUser };
 
 export default async function Profile({ user }: Props) {
-  const reviews = await reviewByUsername(user?.username);
+  const reviews = await reviewsByUsername(user?.username);
 
   return (
     <div className="flex flex-row justify-between h-screen w-screen p-8">

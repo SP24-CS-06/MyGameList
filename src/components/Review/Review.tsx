@@ -5,7 +5,7 @@ import Image from "next/image";
 import type { ClientUser, Review } from "@/db/db-schema";
 
 type Props = {
-  review: Review;
+  review: Omit<Review, "picture" | "username">;
   user: ClientUser;
 };
 

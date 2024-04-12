@@ -37,7 +37,6 @@ export function getUserFromToken(): ClientUser | null {
   const userData = getTokenPayload();
   return (
     userData && {
-      email: userData.email,
       picture: userData.picture,
       username: userData.sub,
     }

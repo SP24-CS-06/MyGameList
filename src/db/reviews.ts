@@ -10,7 +10,7 @@ const reviewArraySchema = z.array(reviewSchema);
   const userData = getUserFromToken();
   if (userData) console.log(await reviewByUser(userData.username));
  */
-export async function reviewByUsername(
+export async function reviewsByUsername(
   username: string
 ): Promise<Review[] | null> {
   const res = await db.raw(
@@ -19,6 +19,23 @@ export async function reviewByUsername(
       LEFT JOIN apps ON reviews.appid = apps.appid \
       WHERE users.username = ?",
     [username]
+  );
+  if (!Object.hasOwn(res, "rows")) return null;
+
+  const parsedReviews = reviewArraySchema.safeParse(res.rows);
+
+  return parsedReviews.success ? parsedReviews.data : null;
+}
+
+/**
+ * @example
+  console.log(await reviewsAll());
+ */
+export async function reviewsAll(): Promise<Review[] | null> {
+  const res = await db.raw(
+    "SELECT reviews.title, created_at, content, apps.image_url, reviews.appid, reviews.rating, users.username, users.picture FROM reviews \
+      LEFT JOIN users ON reviews.reviewer_id = users.id \
+      LEFT JOIN apps ON reviews.appid = apps.appid"
   );
   if (!Object.hasOwn(res, "rows")) return null;
 

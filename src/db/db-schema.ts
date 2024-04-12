@@ -9,7 +9,7 @@ export const userSchema = z.object({
 });
 
 export type User = z.infer<typeof userSchema>;
-export type ClientUser = Omit<User, "id">;
+export type ClientUser = Omit<User, "id" | "email">;
 
 export const reviewSchema = z
   .object({
