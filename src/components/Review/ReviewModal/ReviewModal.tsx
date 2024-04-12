@@ -1,8 +1,10 @@
 import { useRef, useEffect, MutableRefObject, useState } from "react";
 import RatingField from "./RatingField";
 import GameField from "./GameField";
-import type { Game } from "@/db/db-schema";
+import type { ClientUser, Game } from "@/db/db-schema";
 import Image from "next/image";
+import reviewSubmit from "@/actions/reviewSubmit";
+import useAuth from "@/hooks/useAuth";
 
 type Props = {
   isOpen: boolean;
@@ -11,29 +13,29 @@ type Props = {
 };
 
 const ReviewModal = ({ isOpen, closeModal, preSelectedGame }: Props) => {
+  const userData = useAuth() as ClientUser;
   const [rating, setRating] = useState(-1);
   const [description, setDescription] = useState("");
   const [selectedGame, setSelectedGame] = useState<Game | null>(
     preSelectedGame ?? null
   );
-
   const dialogRef = useRef<HTMLDialogElement>();
-  // unfocus any other component when modal appears
+
   useEffect(() => {
     if (dialogRef.current) dialogRef.current.focus();
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("TODO: handleSubmit. selectedGame: ", selectedGame);
+    if (!rating || !selectedGame || !description) return;
+    await reviewSubmit(selectedGame, description, rating, userData);
     handleClose();
   };
 
   const handleClose = () => {
-    // reset all values after closing modal
     setRating(-1);
     setDescription("");
     setSelectedGame(null);
-
     closeModal();
   };
 
@@ -44,7 +46,7 @@ const ReviewModal = ({ isOpen, closeModal, preSelectedGame }: Props) => {
       {/* Background */}
       <div
         className="w-screen h-screen absolute top-0 left-0 bg-black bg-opacity-35 transition-all"
-        onClick={() => handleClose()}
+        onClick={handleClose}
       ></div>
       {/* Modal */}
       <dialog
@@ -88,13 +90,13 @@ const ReviewModal = ({ isOpen, closeModal, preSelectedGame }: Props) => {
           <div className="mt-auto gap-2 flex ml-auto pt-2">
             <button
               className="bg-[var(--button-cancel-background)] p-2 hover:bg-[var(--button-cancel-background-hover)] rounded-md"
-              onClick={() => handleClose()}
+              onClick={handleClose}
             >
               Cancel
             </button>
             <button
               className="bg-[var(--button-submit-background)] p-2 hover:bg-[var(--button-submit-background-hover)] rounded-md"
-              onClick={() => handleSubmit()}
+              onClick={handleSubmit}
             >
               Submit
             </button>
