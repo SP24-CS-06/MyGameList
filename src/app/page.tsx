@@ -6,6 +6,7 @@ import React from "react";
 
 const Home = async () => {
   const reviews = await reviewsAll();
+  console.log(reviews);
   const userData = getUserFromToken();
   return (
     <div className="w-full max-w-[var(--max-w-home)] m-auto mt-8">
