@@ -35,8 +35,8 @@ def processApp(title, appId):
             insertApp(cur, appId, title, synopsis, imageUrl)
 
 print("connecting to database...")
-conn = psycopg.connect("postgresql://postgres:password@localhost:5005")
-conn.autocommit = True # save all insertions into database even if program crashes due to Error 429
+with psycopg.connect("dbname=postgres user=postgres password=password port=5005 host=localhost") as conn:
+    conn.autocommit = True # save all insertions into database even if program crashes due to Error 429
 
 with conn.cursor() as cur:
     storedApps = getStoredApps(cur)
