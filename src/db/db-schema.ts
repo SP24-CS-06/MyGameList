@@ -18,7 +18,7 @@ export const reviewSchema = z
     created_at: z.date(),
     content: z.string(),
     rating: z.number().or(z.string().transform(s => Number.parseInt(s))),
-    // title: z.string(),
+    title: z.string(),
     image_url: z.string(),
   })
   .merge(userSchema.pick({ picture: true, username: true }));

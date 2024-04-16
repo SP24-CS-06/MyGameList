@@ -12,14 +12,17 @@ const Home = async () => {
     <div className="w-full max-w-[var(--max-w-home)] m-auto mt-8">
       <div className="w-full">{userData && <ReviewInput />}</div>
       <div className="mt-8">
-        {(reviews || []).map(r => (
-          <Review
-            review={r}
-            user={{ picture: r.picture, username: r.username }}
-            key={r.username + r.created_at + r.appid}
-          />
-        ))}
-        <p>reviews here</p>
+        {reviews?.length ? (
+          reviews.map(r => (
+            <Review
+              review={r}
+              user={{ picture: r.picture, username: r.username }}
+              key={r.username + r.created_at + r.appid}
+            />
+          ))
+        ) : (
+          <h1>No reviews found!</h1>
+        )}
       </div>
     </div>
   );

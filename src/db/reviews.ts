@@ -51,7 +51,7 @@ export async function reviewsAll(): Promise<Review[] | null> {
  */
 export async function reviewByAppid(appid: number): Promise<Review[] | null> {
   const res = await db.raw(
-    "SELECT created_at, content, apps.image_url, reviews.appid, reviews.rating, users.username, users.picture FROM reviews \
+    "SELECT apps.title, created_at, content, apps.image_url, reviews.appid, reviews.rating, users.username, users.picture FROM reviews \
       LEFT JOIN apps ON reviews.appid = apps.appid \
       LEFT JOIN users ON users.id = reviews.reviewer_id \
       WHERE reviews.appid = ?",
