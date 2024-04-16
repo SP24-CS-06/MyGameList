@@ -26,7 +26,6 @@ const ReviewModal = ({ isOpen, closeModal, preSelectedGame }: Props) => {
   }, []);
 
   const handleSubmit = async () => {
-    console.log("TODO: handleSubmit. selectedGame: ", selectedGame);
     if (!rating || !selectedGame || !description) return;
     await reviewSubmit(selectedGame, description, rating, userData);
     handleClose();

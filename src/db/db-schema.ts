@@ -18,7 +18,7 @@ export const reviewSchema = z
     created_at: z.date(),
     content: z.string(),
     rating: z.number().or(z.string().transform(s => Number.parseInt(s))),
-    title: z.string(),
+    // title: z.string(),
     image_url: z.string(),
   })
   .merge(userSchema.pick({ picture: true, username: true }));
@@ -30,6 +30,7 @@ export const gameSchema = z.object({
   title: z.string(),
   synopsis: z.string(),
   image_url: z.string(),
+  avg_rating: z.number().or(z.string().transform(s => Number.parseFloat(s))).optional(),
 });
 
 export type Game = z.infer<typeof gameSchema>;

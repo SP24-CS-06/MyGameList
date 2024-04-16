@@ -1,4 +1,4 @@
-import { getGameByTitle } from "@/db/games";
+import { gamesByTitle } from "@/db/games";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const games = await getGameByTitle(query);
+  const games = await gamesByTitle(query);
 
   return NextResponse.json({
     apps: games,

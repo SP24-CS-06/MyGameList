@@ -35,19 +35,19 @@ def processApp(title, appId):
             insertApp(cur, appId, title, synopsis, imageUrl)
 
 print("connecting to database...")
-with psycopg.connect("dbname=postgres user=postgres password=password port=5005 host=localhost") as conn:
+with psycopg.connect("postgresql://postgres:password@localhost:5005") as conn:
     conn.autocommit = True # save all insertions into database even if program crashes due to Error 429
 
-with conn.cursor() as cur:
-    storedApps = getStoredApps(cur)
-    print("fetching all apps...") 
-    with urllib.request.urlopen(appListUrl) as appList:
-        appList = json.load(appList)
-        for app in appList["applist"]["apps"]:
-            title = app["name"]
-            appId = app["appid"]
-            if not title or appId in storedApps: continue
-            processApp(title, appId)
+    with conn.cursor() as cur:
+        storedApps = getStoredApps(cur)
+        print("fetching all apps...") 
+        with urllib.request.urlopen(appListUrl) as appList:
+            appList = json.load(appList)
+            for app in appList["applist"]["apps"]:
+                title = app["name"]
+                appId = app["appid"]
+                if not title or appId in storedApps: continue
+                processApp(title, appId)
 
 conn.close()
                     

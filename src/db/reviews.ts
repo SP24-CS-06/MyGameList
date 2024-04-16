@@ -35,7 +35,26 @@ export async function reviewsAll(): Promise<Review[] | null> {
   const res = await db.raw(
     "SELECT r.appid, r.rating, r.created_at, r.content, apps.image_url, apps.title, users.username, users.picture FROM reviews r \
       LEFT JOIN users ON r.reviewer_id = users.id \
-      LEFT JOIN apps ON r.appid = apps.appid"
+      LEFT JOIN apps ON r.appid = apps.appid");
+  if (!Object.hasOwn(res, "rows")) return null;
+
+  const parsedReviews = reviewArraySchema.safeParse(res.rows);
+
+  return parsedReviews.success ? parsedReviews.data : null;
+}
+
+/**
+ * 
+ * @example 
+ * console.log(await reviewByAppid(14532));
+ */
+export async function reviewByAppid(appid: number): Promise<Review[] | null> {
+  const res = await db.raw(
+    "SELECT created_at, content, apps.image_url, reviews.appid, reviews.rating, users.username, users.picture FROM reviews \
+      LEFT JOIN apps ON reviews.appid = apps.appid \
+      LEFT JOIN users ON users.id = reviews.reviewer_id \
+      WHERE reviews.appid = ?",
+    [appid]
   );
   if (!Object.hasOwn(res, "rows")) return null;
 

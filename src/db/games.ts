@@ -10,7 +10,7 @@ const gameArraySchema = z.array(gameSchema);
   const query = "counter-strike";
   if (query.length) console.log(await getGameSuggestions(query));
  */
-export async function getGameByTitle(query: string): Promise<Game[] | null> {
+export async function gamesByTitle(query: string): Promise<Game[] | null> {
   const res = await db.raw(
     "SELECT appid, title, synopsis, image_url\
       FROM apps\
@@ -22,4 +22,18 @@ export async function getGameByTitle(query: string): Promise<Game[] | null> {
 
   const parsedGames = gameArraySchema.safeParse(res.rows);
   return parsedGames.success ? parsedGames.data : null;
+}
+
+export async function gameByAppid(appid: number): Promise<Game | null> {
+  const res = await db.raw(
+    "SELECT apps.appid, apps.title, synopsis, image_url FROM apps \
+    WHERE apps.appid = ? \
+    ",
+    [appid]
+  );
+  if (!Object.hasOwn(res, "rows")) return null;
+  console.log(res.rows);
+  const parsedGame = gameSchema.safeParse(res.rows[0]);
+
+  return parsedGame.success ? parsedGame.data : null;
 }
