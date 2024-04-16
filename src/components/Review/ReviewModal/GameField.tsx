@@ -5,11 +5,12 @@ import { Game } from "@/db/db-schema";
 
 type Props = {
   callbackSelectedGame: (g: Game | null) => void;
+  preSelectedGameTitle?: string;
 };
 
-const GameField = ({ callbackSelectedGame }: Props) => {
+const GameField = ({ callbackSelectedGame, preSelectedGameTitle }: Props) => {
   const [suggestions, setSuggestions] = useState<Game[] | null>([]);
-  const [field, setField] = useState("");
+  const [field, setField] = useState(preSelectedGameTitle ?? "");
   const [isFetching, setFetching] = useState(false);
 
   const queryGame = async (query: string) => {

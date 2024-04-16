@@ -1,3 +1,4 @@
+import ReviewButton from "@/components/Game/ReviewButton";
 import Review from "@/components/Review/Review";
 import { gameByAppid } from "@/db/games";
 import { reviewByAppid } from "@/db/reviews";
@@ -26,9 +27,7 @@ const page = async ({ params: { appid } }: Props) => {
           alt={`${game.title} cover art`}
         />
         <h1 className="font-bold mx-auto py-4 text-2xl">{game.title}</h1>
-        <button className="p-3 mx-5 bg-[var(--button-background)] hover:bg-[var(--button-background-hover)]">
-          Leave a review
-        </button>
+        <ReviewButton game={game} />
       </div>
 
       <div className="flex flex-col w-full mt-6">

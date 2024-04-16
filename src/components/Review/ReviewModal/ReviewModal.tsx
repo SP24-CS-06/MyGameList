@@ -14,6 +14,7 @@ type Props = {
 
 const ReviewModal = ({ isOpen, closeModal, preSelectedGame }: Props) => {
   const userData = useAuth() as ClientUser;
+
   const [rating, setRating] = useState(-1);
   const [description, setDescription] = useState("");
   const [selectedGame, setSelectedGame] = useState<Game | null>(
@@ -70,7 +71,10 @@ const ReviewModal = ({ isOpen, closeModal, preSelectedGame }: Props) => {
           <div className="flex-grow h-full flex flex-col gap-5">
             <div>
               <label className="text-[18px] mb-2">Game</label>
-              <GameField callbackSelectedGame={setSelectedGame} />
+              <GameField
+                callbackSelectedGame={setSelectedGame}
+                preSelectedGameTitle={preSelectedGame?.title || ""}
+              />
             </div>
             <div>
               <label className="text-[18px]">Rating</label>
